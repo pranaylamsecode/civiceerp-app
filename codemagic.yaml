@@ -44,5 +44,5 @@ workflows:
     publishing:
       email:
         recipients:
-          - user@example.com # Replace with your email
+          - pranaylamsecode@gmail.com # Replace with your email
         notify: success
