@@ -48,3 +48,8 @@ workflows:
         notify:
           success: true
           failure: true
+      app_store_connect:
+        auth: integration
+        # Configuration related to TestFlight (optional)
+        # Note: This will automatically upload to TestFlight
+        submit_to_testflight: true
