@@ -45,4 +45,6 @@ workflows:
       email:
         recipients:
           - pranaylamsecode@gmail.com # Replace with your email
-        notify: success
+        notify:
+          success: true
+          failure: true
