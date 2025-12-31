@@ -1,0 +1,55 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      # Java setup with caching
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'  # Cache Gradle dependencies
+      
+      # Flutter setup with caching
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true  # Cache Flutter SDK
+      
+      # Cache pub dependencies
+      - name: Cache pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            ${{ github.workspace }}/.dart_tool
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+      
+      - name: Get dependencies
+        run: flutter pub get
+      
+      # Remove flutter clean - wastes time in CI
+      # - name: Clean build
+      #   run: flutter clean
+      
+      # Build single universal APK
+      - name: Build APK (Release)
+        run: flutter build apk --release
+      
+      # Upload APK
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: karyakarta-app-release
+          path: build/app/outputs/flutter-apk/app-release.apk

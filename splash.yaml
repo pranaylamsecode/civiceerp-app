@@ -1,0 +1,15 @@
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+
+  # Light mode splash background
+  color: "#FF9800"
+
+  # Main splash image (center)
+  image: assets/bjp.png
+  image_dark: assets/bjp.png
+
+  android_12:
+    image: assets/bjp-icon-android12.png   # must be transparent icon
+    icon_background_color: "#FF9800"
